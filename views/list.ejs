@@ -6,13 +6,8 @@
     <title>To Do List</title>
 </head>
 <body>
-<!-- <%    if (kindOfDay === "Saturday" || kindOfDay === "Sunday"){ %>
-        <h1 style="color:purple"><%= kindOfDay %> List</h1>
-<%    }else{ %>
-        <h1 style="color: blue"><%= kindOfDay %> List</h1>
-<%    }%> -->
     <div class="box" id="heading">
-        <h1><%= kindOfDay %></h1>
+        <h1><%= listTitle %></h1>
     </div>
     
     <div class="box">
@@ -25,7 +20,7 @@
 
         <form action="/" method="post">
             <input type="text" name="newItem" placeholder="New Item" autocomplete="off">
-            <button type="submit" name="button">+</button>
+            <button type="submit" name="list" value=<%= listTitle %>>+</button>
         </form>
     </div>
     

@@ -8,8 +8,8 @@ const app=express();
 
 //get에서 미리 item 정의해두려고 하는데, 현재 값이 없으니까
 //전역변수로 미리 정의해놓고 post에서 전달된 값으로 바꿔주기만 하면 됨
-var items = ["Buy food","Cook food","Eat food"];
-
+let items = ["Buy food","Cook food","Eat food"];
+let workItems=[];
 
 app.set('view engine', 'ejs');
 
@@ -18,16 +18,15 @@ app.use(bodyParser.urlencoded({extended:true}));
 app.use(express.static("public"));
 
 app.get("/",function(req,res){
-    var today = new Date();
+    let today = new Date();
     
-    var options = {
+    let options = {
         weekday: "long",
         day: "numeric",
         month: "long"
     }
-
-    var day = today.toLocaleDateString("en-US",options);
-    res.render("list",{kindOfDay:day, newListItems:items});
+    let day = today.toLocaleDateString("en-US",options);
+    res.render("list",{listTitle:day, newListItems:items});
 
 
     // var currentDay = today.getDay();
@@ -44,17 +43,31 @@ app.get("/",function(req,res){
 });
 
 app.post("/",function(req,res){
+
     //bodyparser가 있어야 내용가져올 수 있음
-    var item = req.body.newItem;
-    items.push(item)
+    let item = req.body.newItem; 
+    console.log(req.body);
+    if(req.body.list === "Work"){
+        workItems.push(item);
+        res.redirect("/work");
+    }else{
+        items.push(item)
     //아래 코드는 에러가 남
     //이유는 list.ejs에서 newListItem을 출력하려고 하는데 item이
     //정의되지 않아서. 따라서 app.get에서 미리 보내놔야 함
     // res.render("list",{newListItem:item});
 
-    res.redirect("/");
+        res.redirect("/");
     //변수에 내용이 저장된 뒤에 Redirect 해줘서 app.get이 다시 실행되고
     //ejs를 다시 render 하게 만들어야 함
+    }
+    
+    
+    
+});
+
+app.get("/work",function(req,res){
+    res.render("list",{listTitle:"Work List", newListItems:workItems});
 });
 
 app.listen(3000,function(){
