@@ -1,8 +1,18 @@
+//아주 비슷하고 조금씩 다른 html 파일들 -> template으로 해결
+//ejs 가 필요한 이유
+
+
+
 const express=require("express");
 const bodyParser=require("body-parser");
 
-//아주 비슷하고 조금씩 다른 html 파일들 -> template으로 해결
-//ejs 가 필요한 이유
+//만약 run 한다면 require는 date.js로 갈거고, console.log(module)이 실행될 것임
+const date = require(__dirname+"/date.js");
+
+
+//여기다가 괄호를 넣어줘서 함수 실행, 리턴값 나옴
+// console.log(date());
+
 
 const app=express();
 
@@ -18,16 +28,10 @@ app.use(bodyParser.urlencoded({extended:true}));
 app.use(express.static("public"));
 
 app.get("/",function(req,res){
-    let today = new Date();
     
-    let options = {
-        weekday: "long",
-        day: "numeric",
-        month: "long"
-    }
-    let day = today.toLocaleDateString("en-US",options);
-    res.render("list",{listTitle:day, newListItems:items});
+    let day = date.getDate();
 
+    res.render("list",{listTitle:day, newListItems:items});
 
     // var currentDay = today.getDay();
     // var day = "";
@@ -69,6 +73,10 @@ app.post("/",function(req,res){
 app.get("/work",function(req,res){
     res.render("list",{listTitle:"Work List", newListItems:workItems});
 });
+
+app.get("/about",function(req,res){
+    res.render("about");
+})
 
 app.listen(3000,function(){
     console.log("Serever is running on port 3000");
