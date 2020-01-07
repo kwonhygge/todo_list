@@ -5,14 +5,22 @@
     </div>
     
     <div class="box">
-        <% for(var i=0; i<newListItems.length; i++){ %>
-        <div class="item">
-            <input type="checkbox">
-                <p><%= newListItems[i] %></p> 
-        </div>
-        <% } %>
 
-        <form action="/" method="post">
+
+        <% newListItems.forEach(function(item){%>
+            <form action="/delete" method="post">
+                <div class="item">
+                    <!-- item을 value에 담아서 주고, 그렇게 되면 삭제하기는 쉬워짐 -->
+                    <input type="checkbox" name="checkbox" value=<%=item._id%> onchange="this.form.submit()">
+                        <p><%= item.name %></p> 
+                </div>
+                <input type="hidden" name="listName" value="<%= listTitle %>"></input>
+            </form>
+
+
+        <% }) %>
+
+        <form action="/" class="item" method="post">
             <input type="text" name="newItem" placeholder="New Item" autocomplete="off">
             <button type="submit" name="list" value=<%= listTitle %>>+</button>
         </form>
