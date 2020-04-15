@@ -70,7 +70,6 @@ app.get("/",function(req,res){
     //day 모두 생략
     
     // let day = date.getDate();
-
     Item.find({},function(err,foundItems){
         if(foundItems.length===0){
             
@@ -197,7 +196,7 @@ app.post("/delete",function(req,res){
 app.get("/about",function(req,res){
     res.render("about");
 })
-
-app.listen(3000,function(){
+console.log(process.env.PORT);
+app.listen(process.env.PORT||3000,function(){
     console.log("Serever is running on port 3000");
 });
